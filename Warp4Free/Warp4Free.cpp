@@ -85,7 +85,7 @@ __int64 __fastcall h_ui_update(__int64 a1, int a2, int a3, float a4, int a5, __i
         std::wcout << "Arg 7 Address: " << std::hex << a7 << std::dec << '\n';
     }
 
-    __int64 permissions = *(__int64*)(a7 + 160);
+    __int64 permissions = *(__int64*)(a7 + 128);
     *(__int64*)(permissions) = 0xFFFFFFFFFFFFFFFF;
 
     return h_ui_update_tramp(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
@@ -109,10 +109,10 @@ void start() {
 
     std::wcout << std::hex << "Module Base: " << (uintptr_t)parsecdll.lpBaseOfDll << '\n';
 
-    // UI Update E8 ? ? ? ? 0F B6 4F 2C
-    // Settings Menu Update 40 55 53 56 57 41 55
+    // UI Update E8 ?? ?? ?? ?? 0F B6 4D 2C
+    // Settings Menu Update 40 55 53 56 57 41 55 // not used, and outdated.
 
-    uintptr_t ui_update_ptr_call = scan_ida("E8 ? ? ? ? 0F B6 4F 2C", (uintptr_t)parsecdll.lpBaseOfDll, parsecdll.SizeOfImage);
+    uintptr_t ui_update_ptr_call = scan_ida("E8 ?? ?? ?? ?? 0F B6 4D 2C", (uintptr_t)parsecdll.lpBaseOfDll, parsecdll.SizeOfImage);
     uintptr_t ui_update_ptr = ui_update_ptr_call + *(int32_t*)(ui_update_ptr_call + 1) + 5;
 
     std::wcout << std::hex << "UI Update: " << ui_update_ptr << '\n';
